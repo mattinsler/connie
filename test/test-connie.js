@@ -14,72 +14,47 @@ describe('connie', function() {
       });
     });
   });
-  
-  // it('Requires configuration opts', function() {
-  //   assert.throws(function() {
-  //     connie();
-  //   });
-  // });
-  //
-  // it('Read configuration from file', function(done) {
-  //   var readConfig = connie({file: __dirname + '/fixtures/configfile.json'});
-  //
-  //   var context = {};
-  //   readConfig(context).then(function() {
-  //     assert.deepEqual(context.config, {
-  //       foo: 'bar'
-  //     });
-  //     done();
-  //   });
-  // });
-  //
-  // it('Read configuration from dir', function(done) {
-  //   var readConfig = connie({dir: __dirname + '/fixtures/configdir'});
-  //
-  //   var context = {};
-  //   readConfig(context).then(function() {
-  //     assert.deepEqual(context.config, {
-  //       server: {
-  //         port: 3000
-  //       }
-  //     });
-  //     done();
-  //   })
-  //   .catch(done);
-  // });
-  //
-  // it('Read configuration from redis', function(done) {
-  //   var readConfig = connie({redis: {
-  //     url: 'redis://localhost',
-  //     key: 'development'
-  //   }});
-  //
-  //   var context = {};
-  //   readConfig(context).then(function() {
-  //     assert.deepEqual(context.config, {
-  //       port: 3000
-  //     });
-  //     done();
-  //   })
-  //   .catch(done);
-  // });
-  //
-  // it('Read configuration from mongodb', function(done) {
-  //   var readConfig = connie({mongodb: {
-  //     url: 'mongodb://localhost/connie-test',
-  //     collection: 'config',
-  //     id: 'development'
-  //   }});
-  //
-  //   var context = {};
-  //   readConfig(context).then(function() {
-  //     assert.deepEqual(context.config, {
-  //       server: {
-  //         port: 3000
-  //       }
-  //     });
-  //     done();
-  //   })
-  //   .catch(done);
-  // });
+
+  describe('combine', function() {
+    it('can override a top-level key', function() {
+      return connie.combine()
+        .merge('file', 'test/fixtures/configfile.json')
+        .merge('file', 'test/fixtures/configfile2.json')
+      .read().then(function(config) {
+        assert.deepEqual(config, {
+          foo: 'baz'
+        });
+      });
+    });
+    
+    it('can combine a top-level keys', function() {
+      process.env.CONFIG_OVERRIDE = 'baz=#{parseInt(4)}';
+      
+      var configurer = connie.combine()
+        .merge('file', 'test/fixtures/configfile.json')
+        .merge('file', 'test/fixtures/configfile3.json')
+        .merge('env');
+      
+      return configurer.read().then(function(config) {
+        assert.deepEqual(config, {
+          foo: 'bar',
+          bar: 'baz',
+          baz: 4
+        });
+      });
+    });
+    
+    it('will ignore empty local config', function() {
+      return connie.combine()
+        .merge('file', 'test/fixtures/configfile.json')
+        .merge('file', 'test/fixtures/configfile3.json')
+        .merge('file', '/user/foobar/local.json')
+      .read().then(function(config) {
+        assert.deepEqual(config, {
+          foo: 'bar',
+          bar: 'baz'
+        });
+      });
+    });
+  });
 });
