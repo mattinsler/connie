@@ -1,7 +1,7 @@
 {
   "name": "connie",
   "description": "Configuration loader",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "homepage": "https://github.com/mattinsler/connie",
   "repository": {
     "type": "git",
@@ -18,9 +18,10 @@
     "node": ">= 0.10.0"
   },
   "dependencies": {
+    "bluebird": "2.9.34",
     "connie-lang": "0.0.1",
+    "got": "4.1.1",
     "lodash.isplainobject": "2.4.1",
-    "q": "1.1.2",
     "strip-comments": "0.3.2"
   },
   "devDependencies": {

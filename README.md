@@ -1,8 +1,10 @@
 # connie
 
-Configuration loader for use with or without [app-context](https://github.com/mattinsler/app-context). connie uses a pluggable storage engine that can be changed and extended.
+Configuration loader using a pluggable storage engine and custom interpolation language.
 
 **connie** uses [connie-lang](https://github.com/mattinsler/connie-lang) to interpret configuration objects after they are read from the storage.
+
+**connie** works really well with [app-context](http://app-contextjs.com). Check out the simple integration using [app-context-connie](https://github.com/mattinsler/app-context-connie).
 
 ## Installation
 
@@ -87,6 +89,14 @@ then the resulting config would be
 }
 ```
 
+#### http
+
+Loads config from a JSON endpoint using a simple GET request.
+
+```javascript
+var configurer = connie('http', 'http://your-configuration-server.com/production.json');
+```
+
 #### env
 
 Loads config from an environment variable. The format of the environment variable is a
@@ -112,19 +122,13 @@ resulting config object would be
 }
 ```
 
-## Usage with [app-context](https://github.com/mattinsler/app-context)
+## Usage with [app-context](http://app-contextjs.com) through [app-context-connie](https://github.com/mattinsler/app-context-connie)
 
 ```javascript
-var connie = require('connie');
-var AppContext = require('app-context');
-
-AppContext.createContext({
-  configure: function() {
-    this.use(AppContext.RunLevel.Configured,
-      connie('file', 'config.json').initializer()
-    );
-  }
-});
+module.exports = function() {
+  this.runlevel('configured')
+    .use('connie', 'file', 'config.json');
+};
 ```
 
 ## Creating a custom storage engine
