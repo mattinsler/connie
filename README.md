@@ -97,6 +97,33 @@ Loads config from a JSON endpoint using a simple GET request.
 var configurer = connie('http', 'http://your-configuration-server.com/production.json');
 ```
 
+##### http options
+
+You can also pass an options object instead of just a URL.
+
+**`url`** (required) - URL of HTTP endpoint
+
+**`headers`** - an object containing extra headers to add to the request
+
+**`method`** - the method to use (defaults to GET)
+
+**`query`** - an object to be stringified into the querystring
+
+**`auth`** - an auth string for basic authentication
+
+**`timeout`** - number of milliseconds before the request will timeout
+
+```javascript
+var configurer = connie('http', {
+  url: 'http://your-configuration-server.com/production.json',
+  method: 'POST',
+  headers: {
+    'User-Agent': 'foobar',
+    auth: 'username:password'
+  }
+});
+```
+
 #### env
 
 Loads config from an environment variable. The format of the environment variable is a
