@@ -7,7 +7,7 @@ describe('connie', function() {
       var config = connie('file', 'test/fixtures/configfile.json');
       assert(config.constructor === connie.Config);
     });
-    
+
     it('throws an error for an invalid storage type', function() {
       assert.throws(function() {
         connie('unknown');
@@ -26,24 +26,24 @@ describe('connie', function() {
         });
       });
     });
-    
-    it('can combine a top-level keys', function() {
-      process.env.CONFIG_OVERRIDE = 'baz=#{parseInt(4)}';
-      
+
+    it('can combine top-level keys', function() {
+      process.env.CONFIG_OVERRIDE = 'baz=4';
+
       var configurer = connie.combine()
         .merge('file', 'test/fixtures/configfile.json')
         .merge('file', 'test/fixtures/configfile3.json')
         .merge('env');
-      
+
       return configurer.read().then(function(config) {
         assert.deepEqual(config, {
           foo: 'bar',
           bar: 'baz',
-          baz: 4
+          baz: '4'
         });
       });
     });
-    
+
     it('will ignore empty local config', function() {
       return connie.combine()
         .merge('file', 'test/fixtures/configfile.json')
