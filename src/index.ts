@@ -17,7 +17,10 @@ function connie(type: string, opts: any): connie.Connie {
   return {
     async read<T>(): Promise<T> {
       const config = await storage.read();
-      return ConnieLang.parse(config || {}, process.env);
+      if (typeof config === 'string') {
+        return ConnieLang.parse({ wrap: config }, process.env).wrap;
+      }
+      return ConnieLang.parse(config, process.env);
     }
   }
 }
