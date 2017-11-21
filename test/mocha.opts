@@ -1,1 +1,2 @@
---recursive
+--require ts-node/register
+--watch-extensions ts

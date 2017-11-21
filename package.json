@@ -1,33 +1,41 @@
 {
   "name": "connie",
+  "version": "0.2.0",
   "description": "Configuration loader",
-  "version": "0.1.0",
-  "homepage": "https://github.com/mattinsler/connie",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/mattinsler/connie.git"
-  },
-  "bugs": {
-    "url": "https://github.com/mattinsler/connie/issues"
-  },
-  "main": "lib/connie",
-  "scripts": {
-    "test": "mocha"
-  },
-  "engines": {
-    "node": ">= 0.10.0"
-  },
-  "dependencies": {
-    "bluebird": "2.9.34",
-    "connie-lang": "0.1.0",
-    "got": "4.1.1",
-    "lodash.isplainobject": "2.4.1",
-    "strip-comments": "0.3.2"
-  },
-  "devDependencies": {
-    "mocha": "2.1.0"
+  "author": {
+    "email": "matt.insler@gmail.com",
+    "name": "Matt Insler"
   },
   "keywords": [
     "configuration"
-  ]
+  ],
+  "license": "MIT",
+  "repository": "mattinsler/connie",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "build": "ts-pub build",
+    "test": "mocha test/*.test.ts test/**/*.test.ts"
+  },
+  "dependencies": {
+    "connie-lang": "0.1.0",
+    "got": "8.0.0",
+    "lodash.isplainobject": "4.0.6",
+    "strip-json-comments": "2.0.1"
+  },
+  "devDependencies": {
+    "@types/chai": "4.0.5",
+    "@types/got": "7.1.5",
+    "@types/lodash.isplainobject": "4.0.3",
+    "@types/mocha": "2.2.44",
+    "@types/node": "8.0.53",
+    "@types/sinon": "4.0.0",
+    "@types/strip-json-comments": "0.0.30",
+    "chai": "4.1.2",
+    "mocha": "4.0.1",
+    "sinon": "4.1.2",
+    "ts-node": "3.3.0",
+    "ts-pub": "0.0.5",
+    "typescript": "2.6.1"
+  }
 }
