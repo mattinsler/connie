@@ -10,8 +10,10 @@ function connie(type: 'file', filename: string): connie.Connie;
 function connie(type: 'http', url: string | HttpUrlObject): connie.Connie;
 function connie(type: string, opts: any): connie.Connie {
   const storageType = storageTypes[type];
-  if (!storageType) { throw new Error(`Unknown config storage type: ${type}`) }
-  
+  if (!storageType) {
+    throw new Error(`Unknown config storage type: ${type}`);
+  }
+
   const storage = storageType(opts);
 
   return {
@@ -21,8 +23,8 @@ function connie(type: string, opts: any): connie.Connie {
         return ConnieLang.parse({ wrap: config }, process.env).wrap;
       }
       return ConnieLang.parse(config, process.env);
-    }
-  }
+    },
+  };
 }
 
 declare namespace connie {

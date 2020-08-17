@@ -1,6 +1,3 @@
-import * as fs from 'fs';
-import * as path from 'path';
-
 import { parsers } from '../parsers';
 import { readFile, resolve } from './utils';
 
@@ -15,11 +12,13 @@ export function storage(filename: string) {
       try {
         content = await readFile(file);
       } catch (err) {
-        if (err.code !== 'ENOENT') { throw err; }
+        if (err.code !== 'ENOENT') {
+          throw err;
+        }
         content = '';
       }
 
       return parser(content);
-    }
+    },
   };
 }
